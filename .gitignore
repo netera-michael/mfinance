@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment variables (NEVER commit these)
+.env
+.env.local
+*.env
+
+# Persistent data files (financial data - keep private)
+server/budgets.json
+server/forecasts.json
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Python scripts (parent directory tools, not part of the cockpit)
+*.py
+*.pyc
+__pycache__/

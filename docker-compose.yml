@@ -1,0 +1,19 @@
+services:
+  cockpit:
+    build: .
+    container_name: finance-cockpit
+    restart: unless-stopped
+    ports:
+      - "4000:80"          # Access at http://your-vps-ip:4000
+    environment:
+      - ERP_URL=http://109.123.248.154:8001
+      - ERP_API_KEY=${ERP_API_KEY}
+      - ERP_API_SECRET=${ERP_API_SECRET}
+      - COCKPIT_USER=${COCKPIT_USER:-michael}
+      - COCKPIT_PASS=${COCKPIT_PASS:-finance2026}
+      - DATA_DIR=/app/data
+    volumes:
+      - cockpit_data:/app/data   # Persists budgets.json + forecasts.json
+
+volumes:
+  cockpit_data:

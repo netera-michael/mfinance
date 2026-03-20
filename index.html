@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Finance Cockpit — Michael Emil</title>
+  <meta name="description" content="Personal Finance Dashboard" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/css/style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Login Screen -->
+    <div id="login-screen" class="screen active">
+      <div class="login-container">
+        <div class="login-logo">
+          <div class="logo-icon">₤</div>
+          <h1>Finance Cockpit</h1>
+          <p class="login-subtitle">Personal Finance Dashboard</p>
+        </div>
+        <form id="login-form">
+          <div class="input-group">
+            <input type="text" id="login-user" placeholder="Username" autocomplete="username" required />
+          </div>
+          <div class="input-group">
+            <input type="password" id="login-pass" placeholder="Password" autocomplete="current-password" required />
+          </div>
+          <button type="submit" class="btn-primary" id="login-btn">Sign In</button>
+          <p id="login-error" class="error-text"></p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="main-app" class="screen">
+      <!-- Sidebar Navigation (Desktop) -->
+      <nav class="sidebar-nav" id="sidebar-nav">
+        <div class="sidebar-logo">
+          <div class="logo-icon">₤</div>
+          <span>Finance Cockpit</span>
+        </div>
+        <button class="sidebar-btn active" data-page="home">
+          <span class="nav-icon">◉</span> Dashboard
+        </button>
+        <button class="sidebar-btn" data-page="budget">
+          <span class="nav-icon">◔</span> Budget
+        </button>
+        <button class="sidebar-btn" data-page="cashflow">
+          <span class="nav-icon">⇅</span> Cash Flow
+        </button>
+        <button class="sidebar-btn" data-page="more">
+          <span class="nav-icon">⋯</span> More
+        </button>
+        <button class="sidebar-btn add-btn" data-page="add">
+          <span class="nav-icon">＋</span> New Transaction
+        </button>
+      </nav>
+
+      <!-- Main Content Area -->
+      <div class="main-content-area">
+        <!-- Top Bar -->
+        <header class="topbar">
+          <div class="topbar-left">
+            <h2 class="topbar-title" id="page-title">Dashboard</h2>
+            <p class="topbar-subtitle" id="page-subtitle">Welcome back, Michael</p>
+          </div>
+          <div class="topbar-actions">
+            <button class="btn-icon" id="refresh-btn" title="Refresh">⟳</button>
+            <div class="user-profile">
+              <div class="avatar">ME</div>
+              <button class="btn-icon" id="logout-btn" title="Logout">⏻</button>
+            </div>
+          </div>
+        </header>
+
+        <!-- Page Container -->
+        <main id="page-container">
+          <!-- Home / Networth -->
+          <div id="page-home" class="page active">
+            <div class="dashboard-hero-section">
+              <div class="networth-hero">
+                <span class="hero-label">Total Networth</span>
+                <div class="hero-val-container">
+                  <h1 class="hero-value" id="networth-value">—</h1>
+                  <span class="hero-currency">EGP</span>
+                </div>
+              </div>
+
+              <div class="stats-grid">
+                <div class="stat-card">
+                  <div class="stat-icon emerald">📈</div>
+                  <div class="stat-content">
+                    <span class="stat-label">Total Assets</span>
+                    <span class="stat-value positive" id="total-assets">—</span>
+                  </div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-icon red">📉</div>
+                  <div class="stat-content">
+                    <span class="stat-label">Total Liabilities</span>
+                    <span class="stat-value negative" id="total-liabilities">—</span>
+                  </div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-icon blue">💰</div>
+                  <div class="stat-content">
+                    <span class="stat-label">Total Cash</span>
+                    <span class="stat-value" id="total-cash">—</span>
+                  </div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-icon purple">💎</div>
+                  <div class="stat-content">
+                    <span class="stat-label">Investments</span>
+                    <span class="stat-value" id="total-investments">—</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="breakdown-grid">
+              <div class="section-card panel">
+                <div class="panel-header">
+                  <h3 class="section-title">Assets Breakdown</h3>
+                  <button class="btn-text">View All</button>
+                </div>
+                <div id="assets-list" class="breakdown-list"></div>
+              </div>
+
+              <div class="section-card panel">
+                <div class="panel-header">
+                  <h3 class="section-title">Liabilities Breakdown</h3>
+                  <button class="btn-text">View All</button>
+                </div>
+                <div id="liabilities-list" class="breakdown-list"></div>
+              </div>
+            </div>
+          </div>
+
+        <!-- Cash Flow Page -->
+        <div id="page-cashflow" class="page">
+          <div class="month-selector-bar">
+            <h2>Cash Flow Review</h2>
+            <div class="month-selector" style="display:flex; align-items:center;">
+              <button class="btn-sm" id="prev-month">◀</button>
+              <span id="current-month" data-month="2026-03">March 2026</span>
+              <button class="btn-sm" id="next-month">▶</button>
+              <button class="btn-sm" id="add-forecast-btn" style="margin-left: var(--space-lg); background: var(--accent-blue); border-color: var(--accent-blue); color: white;">＋ Add Expectation</button>
+            </div>
+          </div>
+
+          <div class="dashboard-hero-section cashflow-hero">
+            <div class="stat-card accent wide">
+              <span class="stat-label">Discretionary Income</span>
+              <span class="stat-value giant" id="discretionary-income">—</span>
+            </div>
+            <div class="stat-card wide border-only">
+              <span class="stat-label">Monthly Cash Flow</span>
+              <span class="stat-value giant" id="monthly-cash">—</span>
+            </div>
+          </div>
+
+          <div class="breakdown-grid">
+            <div class="section-card panel">
+              <div class="panel-header">
+                <h3 class="section-title">Income</h3>
+              </div>
+              <div id="income-list" class="breakdown-list"></div>
+              <div class="list-total"><span>Total Income</span><span id="total-income" class="positive">—</span></div>
+            </div>
+            <div class="section-card panel">
+              <div class="panel-header">
+                <h3 class="section-title">Sunk Expenses</h3>
+              </div>
+              <div id="expenses-list" class="breakdown-list"></div>
+              <div class="list-total"><span>Total Sunk</span><span id="total-sunk" class="negative">—</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add Transaction Page -->
+        <div id="page-add" class="page centered-page">
+          <div class="section-card form-panel">
+            <h3 class="section-title">Log New Transaction</h3>
+            <form id="transaction-form">
+              <div class="input-row">
+                <div class="input-group flex-2">
+                  <label>Amount</label>
+                  <input type="number" id="tx-amount" placeholder="0.00" step="0.01" required />
+                </div>
+                <div class="input-group flex-1">
+                  <label>Currency</label>
+                  <div class="toggle-group">
+                    <button type="button" class="toggle-btn active" data-currency="EGP">EGP</button>
+                    <button type="button" class="toggle-btn" data-currency="AED">AED</button>
+                    <button type="button" class="toggle-btn" data-currency="USD">USD</button>
+                  </div>
+                </div>
+              </div>
+              <div class="input-row">
+                <div class="input-group flex-1">
+                  <label>Date</label>
+                  <input type="date" id="tx-date" />
+                </div>
+                <div class="input-group flex-1">
+                  <label>From Account</label>
+                  <select id="tx-from" required>
+                    <option value="">Select account...</option>
+                    <optgroup label="🇦🇪 Dubai Banks">
+                      <option value="Mashreq NEO">Mashreq NEO</option>
+                      <option value="Mashreq Current">Mashreq Current</option>
+                      <option value="ADCB">ADCB</option>
+                      <option value="AlHilal">AlHilal</option>
+                    </optgroup>
+                    <optgroup label="🇪🇬 Egypt Banks">
+                      <option value="CIB Current">CIB Current</option>
+                      <option value="CIB USD">CIB USD</option>
+                    </optgroup>
+                    <optgroup label="💵 Cash">
+                      <option value="Cash In Hand">Cash</option>
+                    </optgroup>
+                  </select>
+                </div>
+              </div>
+              <div class="input-group">
+                <label>Category</label>
+                <select id="tx-category" required>
+                  <option value="">Select category...</option>
+                  <optgroup label="🏠 Consumption">
+                    <option value="Sodic Rent">Sodic Rent</option>
+                    <option value="Stanley Rent">Stanley Rent</option>
+                    <option value="MG One Installment">MG One Installment</option>
+                    <option value="Home">Home</option>
+                    <option value="Michael">Michael (Personal)</option>
+                    <option value="Nursery">Nursery</option>
+                    <option value="Nosa">Nosa</option>
+                    <option value="Reda">Reda</option>
+                    <option value="Others">Others</option>
+                  </optgroup>
+                  <optgroup label="💼 Business & Projects">
+                    <option value="Agency Salaries">Agency Salaries</option>
+                    <option value="Ads">Ads</option>
+                    <option value="Agency">Agency (Project Costs)</option>
+                  </optgroup>
+                </select>
+              </div>
+              <div class="input-group">
+                <label>Note (optional)</label>
+                <input type="text" id="tx-note" placeholder="What was this for?" />
+              </div>
+              <button type="submit" class="btn-primary btn-full btn-large">Submit Transaction</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Budget Page -->
+        <div id="page-budget" class="page">
+          <div class="section-card">
+            <h3 class="section-title">Budget Tracker — <span id="budget-month">March 2026</span></h3>
+            <div id="budget-list" class="budget-grid"></div>
+          </div>
+        </div>
+
+        <!-- More Page -->
+        <div id="page-more" class="page">
+          <div class="section-card">
+            <h3 class="section-title">Banks & Cash</h3>
+            <div id="banks-detail" class="breakdown-list"></div>
+          </div>
+          <div class="section-card">
+            <h3 class="section-title">Investments</h3>
+            <div id="investments-detail" class="breakdown-list"></div>
+          </div>
+          <div class="section-card">
+            <h3 class="section-title">Splitwise (Partner Accounts)</h3>
+            <div id="splitwise-detail" class="breakdown-list"></div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Bottom Navigation (Mobile only) -->
+      <nav class="bottom-nav">
+        <button class="nav-btn active" data-page="home">
+          <span class="nav-icon">◉</span>
+          <span class="nav-label">Home</span>
+        </button>
+        <button class="nav-btn" data-page="budget">
+          <span class="nav-icon">◔</span>
+          <span class="nav-label">Budget</span>
+        </button>
+        <button class="nav-btn add-btn" data-page="add">
+          <span class="nav-icon">＋</span>
+          <span class="nav-label">Add</span>
+        </button>
+        <button class="nav-btn" data-page="cashflow">
+          <span class="nav-icon">⇅</span>
+          <span class="nav-label">Cash Flow</span>
+        </button>
+        <button class="nav-btn" data-page="more">
+          <span class="nav-icon">⋯</span>
+          <span class="nav-label">More</span>
+        </button>
+      </nav>
+      </div> <!-- /main-content-area -->
+    </div>
+  </div>
+
+  <script type="module" src="/src/js/main.js"></script>
+</body>
+</html>
